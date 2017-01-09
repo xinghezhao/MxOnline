@@ -13,7 +13,6 @@
     {% block custom_css %} {% endblock %}
     <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
-    {% block custom_js %}{% endblock %}
 </head>
 <body>
 <section class="headerwrap headerwrap2">
@@ -215,6 +214,8 @@
 
 <script type="text/javascript" src="{% static 'js/plugins/jquery.raty.js' %}"></script>
 <script type="text/javascript">
+{% block custom_js %}{% endblock %}
+
     //收藏分享
 //收藏分享
 function add_fav(current_elem, fav_id, fav_type){

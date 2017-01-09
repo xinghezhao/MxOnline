@@ -15,7 +15,6 @@
 <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
 
-{% block custom_js %} {% endblock %}
 
 </head>
 <body>
@@ -126,34 +125,37 @@
 	<li class="totop"></li>
 </ul>
 </section>
+
 <script src="{% static 'js/selectUi.js' %}" type='text/javascript'></script>
 <script src="{% static 'js/deco-common.js' %}" type='text/javascript'></script>
 <script type="text/javascript" src="{% static 'js/plugins/laydate/laydate.js' %}"></script>
 <script src="{% static 'js/plugins/layer/layer.js' %}"></script>
 <script src="{% static 'js/plugins/queryCity/js/public.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/unslider.js"' %} type="text/javascript"></script>
+<script src="{% static 'js/unslider.js'%}" type="text/javascript"></script>
 <script src="{% static 'js/plugins/jquery.scrollLoading.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/deco-common.js' %}" type="text/javascript"></script>
-<script>
-    $(function(){
-        $('#jsStayBtn').on('click', function(){
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url:"/org/add_ask/",
-                data:$('#jsStayForm').serialize(),
-                async: true,
-                success: function(data) {
-                    if(data.status == 'success'){
-                        $('#jsStayForm')[0].reset();
-                        alert("提交成功")
-                    }else if(data.status == 'fail'){
-                        $('#jsCompanyTips').html(data.msg)
-                    }
-                },
-            });
-        });
-    })
-</script>
+{#<script>#}
+{#    $(function(){#}
+{#        $('#jsStayBtn').on('click', function(){#}
+{#            $.ajax({#}
+{#                cache: false,#}
+{#                type: "POST",#}
+{#                url:"/org/add_ask/",#}
+{#                data:$('#jsStayForm').serialize(),#}
+{#                async: true,#}
+{#                success: function(data) {#}
+{#                    if(data.status == 'success'){#}
+{#                        $('#jsStayForm')[0].reset();#}
+{#                        alert("提交成功")#}
+{#                    }else if(data.status == 'fail'){#}
+{#                        $('#jsCompanyTips').html(data.msg)#}
+{#                    }#}
+{#                },#}
+{#            });#}
+{#        });#}
+{#    })#}
+{#</script>#}
+
+{% block custom_js %}{% endblock %}
 </body>
 </html>
