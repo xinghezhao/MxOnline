@@ -1,6 +1,6 @@
 {% extends 'base.html'  %}
 
-{% block title %} 公开课视频信息 - 慕学在线网{% endblock %}
+{% block title %} {{ video.name }} - 慕学在线网{% endblock %}
 
 {% load staticfiles %}
 
@@ -10,8 +10,8 @@
 	<ul class="crumbs">
         <li><a href="/">首页</a>></li>
         <li><a href="{% url 'course:course_list' %}">公开课程</a></li>
-        <li><a href="{% url 'course:course_detail' course.id %}">>课程详情></a></li>
-        <li>章节详情</li>
+        <li><a href="{% url 'course:course_detail' course.id %}">>{{ course.name }}></a></li>
+        <li>{{ video.name }}</li>
 	</ul>
 </div>
 </section>
@@ -69,7 +69,7 @@
                         <ul class="video">
                             {% for video in lesson.get_lesson_video %}
                                 <li>
-                                <a target="_blank" href='/video/3662' class="J-media-item studyvideo">{{ video.name }}  ({{ video.learn_times }}分钟)
+                                <a target="_blank" href='{% url "course:video_play" video.id %}' class="J-media-item studyvideo">{{ video.name }}  ({{ video.learn_times }}分钟)
                                     <i class="study-state"></i>
                                 </a>
                             </li>

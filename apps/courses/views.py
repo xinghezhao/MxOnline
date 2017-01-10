@@ -53,7 +53,7 @@ class VideoPlayView(View):
     def get(self, request, video_id):
 
         video = Video.objects.get(id=int(video_id))
-        course = Video.lesson.course
+        course = video.lesson.course
         course.students += 1
         course.save()
 
