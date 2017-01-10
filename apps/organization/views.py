@@ -4,9 +4,11 @@ from django.views.generic import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger #用于分页
 from django.http import HttpResponse #指定返回给用户的类型
 
-from .models import CourseOrg, CityDict
+from .models import CourseOrg, CityDict, Teacher
 
 from operation.models import UserFavorite
+
+from courses.models import Course
 from .forms import UserAskForm
 from courses.models import Course
 # Create your views here.
@@ -199,5 +201,63 @@ class AddFavView(View):
                 return HttpResponse('{"status":"success", "msg": "已收藏"}', content_type='application/json')
             else:
                 return HttpResponse('{"status":"fail", "msg": "收藏出错"}', content_type='application/json')
+
+
+class TeacherListView(View):
+    """
+    课程讲师列表页
+    """
+    def get(self, request):
+        all_teachers = Teacher.objects.all()
+
+        #排序功能展示（根据人气排行）
+        sort = request.GET.get('sort', '')
+        if sort:
+            if sort == 'hot':
+                all_teachers = all_teachers.order_by('-click_nums')
+
+        #讲师排行榜
+        sorted_teacher = Teacher.objects.all().order_by('-click_nums')[:3]
+
+        # 对讲师进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(all_teachers, 1, request=request)
+
+        teachers = p.page(page)
+
+        return render(request, 'teachers-list.html', {
+            'all_teachers':teachers,
+            'sorted_teacher':sorted_teacher,
+            'sort':sort
+        })
+
+
+class TeacherDetailView(View):
+    """
+    讲师详情页
+    """
+    def get(self, request, teacher_id):
+
+        teacher = Teacher.objects.get(id = int(teacher_id))
+        all_courses = Course.objects.filter(teacher=teacher)
+
+        #讲师排行榜
+        sorted_teacher = Teacher.objects.all().order_by('-click_nums')[:3]
+
+        return render(request, 'teacher-detail.html', {
+            'teacher':teacher,
+            'all_courses':all_courses,
+            'sorted_teacher':sorted_teacher
+        })
+
+
+
+
+
+
 
 
