@@ -2,9 +2,10 @@
 from django.shortcuts import render
 from django.views.generic.base import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger #用于分页
+from django.http import HttpResponse #指定返回给用户的类型
 
 from .models import Course, CourseResource
-from operation.models import UserFavorite
+from operation.models import UserFavorite, CourseComments
 # Create your views here.
 
 
@@ -94,6 +95,64 @@ class CourseInfoView(View):
             'course':course,
             'course_resources':all_resources
         })
+
+
+
+class CommentsView(View):
+    """
+    课程评论
+    """
+
+    def get(self, request, course_id):
+        #课程评论页面与章节页面重复的地方
+        course = Course.objects.get(id=int(course_id))
+        all_resources = CourseResource.objects.filter(course=course)
+
+        return render(request, 'course-comment.html', {
+            'course':course,
+            'course_resources':all_resources
+        })
+
+
+    def get(self, request, course_id):
+
+        course = Course.objects.get(id=int(course_id))
+        all_resources = CourseResource.objects.filter(course=course)
+        all_comments = CourseComments.objects.all()
+
+        return render(request, 'course-comment.html', {
+            'course':course,
+            'course_resources':all_resources,
+            'all_comments':all_comments
+        })
+
+
+class AddCommentsView(View):
+    """
+    用户添加课程评论
+    """
+    def post(self, request):
+        if not request.user.is_authenticated():
+            # 判断用户登录状态
+            return HttpResponse('{"status":"fail", "msg": "用户未登录"}', content_type='application/json')
+
+        course_id = request.POST.get('course_id', 0)
+        comments = request.POST.get('comments', '')
+        if course_id > 0 and comments:
+            course_comments = CourseComments()
+            course = Course.objects.get(id = (course_id))
+            course_comments.course = course
+            course_comments.comments = comments
+            course_comments.user = request.user
+            course_comments.save()
+            return HttpResponse('{"status":"success", "msg": "添加成功"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status":"fail", "msg": "添加失败"}', content_type='application/json')
+
+
+
+
+
 
 
 
