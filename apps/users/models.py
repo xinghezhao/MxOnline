@@ -17,6 +17,8 @@ class UserProfile(AbstractUser):
     mobile = models.CharField(max_length=11, null=True, blank=True)
     image = models.ImageField(upload_to="image/%Y/%m",default=u"image/default.png", max_length=100)
 
+    USERNAME_FIELD = 'username'
+
     class Meta:
         verbose_name = "用户信息"
         verbose_name_plural = verbose_name
