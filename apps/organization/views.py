@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger #用于分页
 from django.http import HttpResponse #指定返回给用户的类型
+from django.db.models import Q #Q表示或
 
 from .models import CourseOrg, CityDict, Teacher
 
@@ -24,6 +25,12 @@ class OrgView(View):
         hot_orgs = all_orgs.order_by('-click_nums')[:3]
         #城市
         all_citys = CityDict.objects.all()
+
+        # 机构搜索 (全局导航栏中)
+        search_keywords = request.GET.get('keywords', '')
+        if search_keywords:
+            all_orgs = all_orgs.filter(
+                Q(name__icontains=search_keywords) | Q(desc__icontains=search_keywords))
 
 
         #取出筛选城市
@@ -209,6 +216,16 @@ class TeacherListView(View):
     """
     def get(self, request):
         all_teachers = Teacher.objects.all()
+
+        # 课程讲师搜索 (全局导航栏中)
+        search_keywords = request.GET.get('keywords', '')
+        if search_keywords:
+            all_teachers = all_teachers.filter(
+                Q(name__icontains=search_keywords) |
+                Q(work_company__icontains=search_keywords) |
+                Q(work_position__icontains=search_keywords))
+
+
 
         #排序功能展示（根据人气排行）
         sort = request.GET.get('sort', '')
