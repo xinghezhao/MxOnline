@@ -40,5 +40,9 @@ urlpatterns = [
     url(r'^org/', include('organization.urls', namespace='org')),
 
 
+    #课程详情URL配置
+    url(r'^course/', include('courses.urls', namespace='course')),
+
+
     url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),  #配置上传文件的访问函数
 ]
