@@ -108,6 +108,8 @@ $(function(){
         });
     });
 
+
+
     //个人资料头像
     $('.js-img-up').uploadPreview({ Img: ".js-img-show", Width: 94, Height: 94 ,Callback:function(){
         $('#jsAvatarForm').submit();

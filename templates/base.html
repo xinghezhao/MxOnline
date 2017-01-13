@@ -33,23 +33,26 @@
             {% if  request.user.is_authenticated %}
                 <div class="personal">
                     <dl class="user fr">
-                        <dd>xinghezhao@163.com<img class="down fr" src="/static/images/top_down.png" /></dd>
-                        <dt><img width="20" height="20" src="{% static 'media/image/2016/12/default_big_14.png' %}"/></dt>
+                        <dd>{{ user.username }}<img class="down fr" src="/static/images/top_down.png" /></dd>
+                        <dt><img width="20" height="20" src="{{ MEDIA_URL }}{{ request.user.image }}"/></dt>
                     </dl>
                     <div class="userdetail">
                         <dl>
-                            <dt><img width="80" height="80" src="/static/media/image/2016/12/default_big_14.png"/></dt>
+                            <dt><img width="80" height="80" src="{{ MEDIA_URL }}{{ request.user.image }}"/></dt>
                             <dd>
-                                <h2>管理员</h2>
-                                <p>xinghezhao</p>
+                                <h2>{{ request.user.nick_name }}</h2>
+                                <p>{{ request.user.username }}</p>
                             </dd>
                         </dl>
                         <div class="btn">
-                            <a class="personcenter fl" href="usercenter-info.html">进入个人中心</a>
-                            <a class="fr" href="/logout/">退出</a>
+                            <a class="personcenter fl" href="{% url 'users:user_info' %}">进入个人中心</a>
+                            <a class="fr" href="{% url 'logout' %}">退出</a>
                         </div>
                     </div>
                 </div>
+                <a href="usercenter-message.html">
+                    <div class="msg-num"><span id="MsgNum">0</span></div>
+                </a>
                 {% else %}
                 <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">注册</a>
                 <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">登录</a>
@@ -102,7 +105,7 @@
 <section>
 <div class="wp">
 	<ul class="crumbs">
-		<li><a href="index.html">首页</a>></li>
+		<li><a href="{% url 'index' %}">首页</a>></li>
 	</ul>
 </div>
 </section>
