@@ -196,6 +196,30 @@ class UpdatePwdView(View):
 
 
 
+class SendEmailCodeView(LoginRequiredMixin, View):
+    """
+    发送邮箱验证码
+    """
+    def get(self, request):
+        email = request.GET.get('email','')
+
+        if UserProfile.objects.filter(email=email):
+            return HttpResponse('{"email":"邮箱已经存在"}', content_type='application/json')
+        send_register_email(email, 'update_email')
+
+        return HttpResponse('{"status":"sucess"}', content_type='application/json')
+
+
+class UpdateEmailView(LoginRequiredMixin, View):
+    """
+    修改个人邮箱
+    """
+
+    def post(self, request):
+        pass
+
+
+
 
 # Create your views here.
 
