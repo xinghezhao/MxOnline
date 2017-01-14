@@ -8,5 +8,10 @@ Mxonline(在线教育学习网站)
 
 能够在后台对课程，讲师等一系列进行更新。
 
+pip install django-simple-captcha==0.4.6 用于验证码
+
+pip install django-pure-pagination 用户分页
+
+pip install pillow 图像处理
 
 个人强烈推荐使用Xadmin,功能样式，都比Admin强大。
