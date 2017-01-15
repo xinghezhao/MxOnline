@@ -338,6 +338,13 @@ class MymessageView(LoginRequiredMixin, View):
     def get(self, request):
         all_message = UserMessage.objects.filter(user=request.user.id)
 
+        #用户进入个人消息后清空未读消息的记录
+        all_unread_message = UserMessage.objects.filter(user=request.user.id, has_read=False)
+        for unread_message in all_unread_message:
+            unread_message.has_read = True
+            unread_message.save()
+
+
         #对个人消息进行分页
         try:
             page = request.GET.get('page', 1)
