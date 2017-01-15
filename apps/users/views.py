@@ -7,12 +7,17 @@ from django.db.models import Q #Q表示或
 from django.views.generic.base import View
 from django.contrib.auth.hashers import make_password #把明文密码加密
 from django.http import HttpResponse, HttpResponseRedirect  #HttpResponseRedirect重定View
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger #用于分页
+
 
 from .models import UserProfile,EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, ForgetForm, ModifyPwdForm, UploadImageForm
 from forms import UserInfoForm
 from utils.email_send import send_register_email
 from utils.mixin_utils import LoginRequiredMixin #用户登陆
+from operation.models import UserCourse, UserFavorite, UserMessage
+from organization.models import CourseOrg, Teacher
+from courses.models import Course
 
 #通过类实现邮箱登陆
 class CustomBackend(ModelBackend):  #通过邮箱登陆
@@ -59,6 +64,14 @@ class RegisterView(View):  #注册
             user_profile.is_active = False  #数据库中is_active 默认是False 没有激活,当变为True时为激活
             user_profile.password = make_password(pass_word)   #密码加密
             user_profile.save()
+
+            #写入欢迎注册消息
+            user_message = UserMessage()
+            user_message.user = user_profile.id
+            user_message.message = '欢迎注册慕学在线网'
+            user_message.save()
+
+
 
             send_register_email(user_name, 'register')
             return render(request, 'login.html')
@@ -241,6 +254,103 @@ class UpdateEmailView(LoginRequiredMixin, View):
         else:
             return HttpResponse('{"email":"验证码出错"}', content_type='application/json')
 
+
+class MyCourseView(LoginRequiredMixin, View):
+    """
+    我的课程
+    """
+    def get(self, request):
+
+        user_courses = UserCourse.objects.filter(user=request.user)
+
+        return render(request, 'usercenter-mycourse.html', {
+            'user_courses':user_courses
+        })
+
+
+
+class MyFavOrgView(LoginRequiredMixin, View):
+    """
+    我收藏的课程机构
+    """
+
+    def get(self, request):
+        org_list = []
+
+        fav_orgs = UserFavorite.objects.filter(user=request.user, fav_type=2)
+        for fav_org in fav_orgs:
+            org_id = fav_org.fav_id
+            org = CourseOrg.objects.get(id=org_id)
+            org_list.append(org)
+
+        return render(request, 'usercenter-fav-org.html', {
+            'org_list': org_list
+        })
+
+
+
+class MyFavTeacherView(LoginRequiredMixin, View):
+    """
+    我收藏的授课讲师
+    """
+
+    def get(self, request):
+        teacher_list = []
+
+        fav_teahcers = UserFavorite.objects.filter(user=request.user, fav_type=3)
+        for fav_teacher in fav_teahcers:
+            teacher_id = fav_teacher.fav_id
+            teacher = Teacher.objects.get(id=teacher_id)
+            teacher_list.append(teacher)
+
+        return render(request, 'usercenter-fav-teacher.html', {
+            'teacher_list': teacher_list
+        })
+
+
+
+
+class MyFavCourseView(LoginRequiredMixin, View):
+    """
+    我收藏的课程
+    """
+
+    def get(self, request):
+        course_list = []
+
+        fav_courses = UserFavorite.objects.filter(user=request.user, fav_type=1)
+        for fav_course in fav_courses:
+            course_id = fav_course.fav_id
+            teacher = Course.objects.get(id=course_id)
+            course_list.append(teacher)
+
+        return render(request, 'usercenter-fav-course.html', {
+            'course_list': course_list
+        })
+
+
+
+class MymessageView(LoginRequiredMixin, View):
+    """
+    我的消息
+    """
+
+    def get(self, request):
+        all_message = UserMessage.objects.filter(user=request.user.id)
+
+        #对个人消息进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(all_message, 5, request=request)
+
+        messages = p.page(page)
+
+        return render(request, 'usercenter-message.html', {
+            'messages':messages
+        })
 
 
 

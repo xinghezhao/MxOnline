@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <a href="usercenter-message.html">
-                    <div class="msg-num"><span id="MsgNum">0</span></div>
+                    <div class="msg-num"><span id="MsgNum">{{ request.user.unread_nums }}</span></div>
                 </a>
                 {% else %}
                 <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">注册</a>
