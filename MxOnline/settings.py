@@ -26,9 +26,9 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = '9@a43!m-sm_4lh5o+)-y=_du3%-(0x6#83)fzy&9*#u!sbno=h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -157,3 +157,5 @@ EMAIL_FROM = 'xinghezhao@sina.com'
 
 MEDIA_URL = '/media/'  #文件上传目录
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #文件上传地址
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') #文件上传地址(当debug改为true时需要更改)
