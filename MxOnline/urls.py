@@ -18,12 +18,14 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView  #用于(网页首页)显示静态文件
 import xadmin
-from django.views.static import serve  #用于处理静态文件
+from django.views.static import serve  #用于处理上传静态文件
 
 from users.views import LogoutView, LoginView, RegisterView, ActiveUserView,ForgetPwdView, ResetView, ModifyPwdView
 from users.views import IndexView
 from organization.views import OrgView
-from MxOnline.settings import MEDIA_ROOT, STATIC_ROOT  #(当debug改为true时需要增加)
+from MxOnline.settings import MEDIA_ROOT #,STATIC_ROOT  #(当debug改为true时需要增加)
+
+
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -53,8 +55,9 @@ urlpatterns = [
     # 配置上传文件的访问函数
     url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
 
+
     #配置static的访问函数
-    url(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
+    # url(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
 ]
 
 #全局404页面配置
