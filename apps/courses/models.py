@@ -40,10 +40,23 @@ class Course(models.Model):
     def get_course_lesson(self):
         # 获取课程章节
         return self.lesson_set.all()
+    get_zj_nums.short_description = '章节数'
+
+    def go_to(self):
+        from django.utils.safestring import mark_safe #将下面HTML代码显示到后台中
+        return mark_safe('<a href = "https://www.baidu.com">跳转</a>')
+
+    go_to.short_description = '跳转'
 
     def __unicode__(self):
         return self.name
 
+
+class BannerCourse(Course):
+    class Meta:
+        verbose_name = '轮播课程'
+        verbose_name_plural = verbose_name
+        proxy = True  #要设置为true这样就会在生成一张表，而且不会注册，还有有model的功能
 
 
 

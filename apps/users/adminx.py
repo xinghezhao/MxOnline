@@ -46,6 +46,7 @@ class EmailVerifyRecordAdmin(object):
     list_display = ['code','email','send_type','send_time']  #后台自定义显示列
     search_fields = ['code','email','send_type'] #定义后台搜索
     list_filter = ['code','email','send_type','send_time'] #通过时间搜索
+    model_icon = 'fa fa-envelope'
 
 
 class BannerAdmin(object):

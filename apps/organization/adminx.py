@@ -22,6 +22,8 @@ class CourseOrgAdmin(object):
     search_fields = ['name', 'desc','click_nums']  #搜索功能
     list_filter = ['name', 'desc','click_nums', 'fav_nums'] #过滤器
 
+    # relfield_style = 'fk-ajax' #当某个外键指向它可以设置(改为搜索功能)
+
 
 class TeacherAdmin(object):
 
