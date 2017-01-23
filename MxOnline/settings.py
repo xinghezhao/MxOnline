@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'captcha',
     'pure_pagination', #用于分页的库
+    'DjangoUeditor',   #富文本编辑器
 
 ]
 

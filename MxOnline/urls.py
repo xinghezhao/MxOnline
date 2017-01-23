@@ -58,6 +58,9 @@ urlpatterns = [
 
     #配置static的访问函数
     # url(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
+
+    #富文本相关url
+    url(r'^ueditor/',include('DjangoUeditor.urls' )),
 ]
 
 #全局404页面配置

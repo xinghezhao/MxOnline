@@ -31,12 +31,14 @@ class CourseAdmin(object):
     exclude = ['fav_nums'] #设置隐藏 exclude和readonly_fields 设置字段冲突
     inlines = [LessonInline,CourseResourceInline]
     refresh_times = [3, 5]#定时刷新列表页
+    style_fields = {"detail":"ueditor"}
+    import_excel = True  #设置导入excel表
 
 
     def queryset(self):
         qs = super(CourseAdmin, self).queryset()
         qs = qs.filter(is_banner=False)
-        return  qs
+        return qs
 
     def save_models(self):
         #在保存课程的时候统计课程机构的课程数
@@ -46,6 +48,11 @@ class CourseAdmin(object):
             course_org = obj.course_org
             course_org.course_nums = Course.objects.filter(course_org=course_org).count()
             course_org.save()
+
+    def post(self, request, *args, **kwargs):
+        if 'excel' in request.FILES:
+            pass
+        return super(CourseAdmin, self).post(request, args, kwargs)
 
 
 
