@@ -14,4 +14,7 @@ pip install django-pure-pagination 用户分页
 
 pip install pillow 图像处理
 
+https://github.com/zhangfisher/DjangoUeditor  富文本编辑器    将github整个源码包下载回家，在命令行运行：
+    python setup.py install  推荐源码安装，pip安装会提示找不到模板。（大坑）
+    
 个人强烈推荐使用Xadmin,功能样式，都比Admin强大。
