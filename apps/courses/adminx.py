@@ -57,7 +57,6 @@ class CourseAdmin(object):
 
 
 
-
 class BannerCourseAdmin(object):
     list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'fav_nums', 'image', 'click_nums',
                     'add_time']  # 显示字段
