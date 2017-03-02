@@ -1,0 +1,7 @@
+django==1.9.8
+xadmin==0.6.1
+django-simple-captcha==0.4.6
+django-pure-pagination
+pillow
+
+注意:https://github.com/zhangfisher/DjangoUeditor 富文本编辑器 将github整个源码包下载回家，在命令行运行：   python setup.py install  推荐源码安装，pip安装会提示找不到模板。（大坑）
