@@ -1,3 +1,4 @@
+请下载success分之，之后运行pip install -r requirement.txt
 # MxOnline
 Mxonline(在线教育学习网站)
 本项目技术语言 Python2.7，所用框架django1.9 xadmin0.6.1。
